@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS - Report Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .tab-btn {
+            padding: 12px 24px;
+            background-color: var(--light-color);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-btn:hover {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .tab-btn.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .report-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--dark-color);
+        }
+        
+        .report-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .report-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .report-title {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+      
+        /* Daily Report Colors */
+        .daily-1 { color: #d64045; }
+        .daily-2 { color: #007b6; }
+        .daily-3 { color: #ffd166; }
+        .daily-4 { color: #5f4b8b; }
+        .daily-5 { color: #ad5d4e; }
+        .daily-6 { color: #e6af2e; }
+        .daily-7 { color: #2a9d8f; }
+        .daily-8 { color: #e76f51; }
+        .daily-9 { color: #d64045; }
+        .daily-10 { color: #264653;}
+        .daily-11 { color: #ffca3a;}
+        .daily-12 { color: #3498db;}
+        .daily-13 { color: #2ecc71;}
+        .daily-14 { color: #f1c40f;}
+        .daily-15 { color: #e74c3c;}
+        .daily-16 { color: #2a9d8f;}
+        
+        /* Weekly Report Colors */
+        .weekly-1 { color: #e67e22; }
+        .weekly-2 { color: #16a085; }
+        .weekly-3 { color: #c0392b; }
+        .weekly-4 { color: #8e44ad; }
+        .weekly-5 { color: #ffd166; }
+        .weekly-6 { color: #ad5d4e; }
+        .weekly-7 { color: #e6af2e; }
+        .weekly-8 { color: #2a9d8f; }
+        .weekly-9 { color: #e76f51; }
+        .weekly-10 { color: #d64045; }
+        .weekly-11 { color: #264653; }
+        .weekly-12 { color: #ffca3a; }
+        .weekly-13 { color: #3498db; }
+        
+        /* Monthly Report Colors */
+        .monthly-1 { color: #3498db; }
+        .monthly-2 { color: #2ecc71; }
+        .monthly-3 { color: #f1c40f; }
+        .monthly-4 { color: #e74c3c; }
+        .monthly-5 { color: #9b59b6; }
+        .monthly-6 { color: #f39c12; }
+        .monthly-7 { color: #d64045; }
+        .monthly-8 { color: #007b6; }
+        .monthly-9 { color: #ffd166; }
+        .monthly-10 { color: #5f4b8b; }
+        
+        /* Project Report Colors */
+        .project-1 { color: #9b59b6; }
+        .project-2 { color: #1abc9c; }
+        .project-3 { color: #d35400; }
+        .project-4 { color: #2a9d8f; }
+        .project-5 { color: #e76f51; }
+        .project-6 { color: #f4a261; }
+        .project-7 { color: #264653;}
+        .project-8 { color: #ffca3a;}
+        
+        /* App Report Colors */
+        .app-1 { color: #3498db; }
+        .app-2 { color: #2ecc71; }
+        .app-3 { color: #e74c3c; }
+        .app-4 { color: #f39c12; }
+        .app-5 { color: #9b59b6; }
+        .app-6 { color: #1abc9c; }
+        .app-7 { color: #d35400; }
+        .app-8 { color: #c0392b; }
+        .app-9 { color: #e67e22; }
+
+        /* store Report Colors */
+        .store-1 { color: #d64045; }
+        .store-2 { color: #3498db; }
+        .store-3 { color: #2ecc71; }
+        .store-4 { color: #f39c12; }
+        .store-5 { color: #9b59b6; }
+        .store-6 { color: #1abc9c; }
+        .store-7 { color: #d35400; }
+        .store-8 { color: #27ae60; }
+        .store-9 { color: #2980b9; }
+        .store-10 { color: #3498db; }
+        
+      /* StakeHolder Report Colors */
+        .stk-1 { color: #3498db; }
+        .stk-2 { color: #2ecc71; }
+        .stk-3 { color: #e74c3c; }
+        .stk-4 { color: #f39c12; }
+        .stk-5 { color: #9b59b6; }
+        .stk-6 { color: #1abc9c; }
+        .stk-7 { color: #d35400; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .tab-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>GPS - Report Dashboard</h1>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="daily">Daily Report</button>
+            <button class="tab-btn" data-tab="store">Store Report</button>
+            <button class="tab-btn" data-tab="supervisor">Report Supervisor</button>
+            <button class="tab-btn" data-tab="monthly">Monthly Report</button>
+             <button class="tab-btn" data-tab="project">Project Report</button>
+        </div> 
+             <!-- <button class="tab-btn" data-tab="project">Project Report</button>
+            <button class="tab-btn" data-tab="stk">Stake Holder Report</button>-->
+   
+        
+        <!-- Daily Report -->
+        <div id="daily" class="tab-content active">
+            <div class="dashboard-grid">
+                <a href="https://docs.google.com/spreadsheets/d/1zdvfsJNTUDD350LC5M8Kosqzb8u09iVLWkCjwwyCEGc/edit?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon daily-5"><i class="fas fa-clone"></i></div>
+                    <div class="report-title">Form Log Book</div>
+                </a>
+                 <a href="https://docs.google.com/spreadsheets/d/1ucTJLWMk3lY-zaSUD6FBt-dLiqSjkw1n-1Iztyo9Eas/edit?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon daily-6"><i class="fas fa-newspaper"></i></div>
+                    <div class="report-title">Buku Briefing</div>
+                </a>  
+                <a href="https://docs.google.com/spreadsheets/d/13xK2EV39YY1OjIPJ_NCTpkmjuv7rcVe9/edit?gid=904978394#gid=904978394" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon daily-2"><i class="fas fa-bullseye"></i></div>
+                    <div class="report-title">Monitoring Sales Per Shift</div>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/1DnpmQBHCKFMGt4_6nzLW-RgJsqi1HcxcIQVKASlQ_JU/edit?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon weekly-9"><i class="fas fa-tablet"></i></div>
+                    <div class="report-title">TCMH</div>
+                </a> 
+                 <a href="select_month_line_bar.html" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon daily-1"><i class="fas fa-calendar"></i></div>
+                    <div class="report-title">Line Bar</div>
+                </a>
+                <a href="select_month_perhitungan_minyak.html" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon daily-10"><i class="fas fa-wheat-awn"></i></div>
+                    <div class="report-title">Perhitungan Minyak</div>
+                </a>
+                <a href="https://script.google.com/macros/s/AKfycbwG3ud6RERE9bkO5RuOZup0xf6gsI0WNaDtxrL6TbVtTSEoJKqR4mKWFMvBILpT2Q4_/exec" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon daily-4"><i class="fas fa-hourglass"></i></div>
+                    <div class="report-title">Form Batch-Expired Product</div>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/1shvYa07lL8-rNGmuDJrZy9NTdtS1GEmVMJWn0w7HrQ4/edit?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon daily-5"><i class="fas fa-temperature-low"></i></div>
+                    <div class="report-title">Suhu Ambience</div>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/1GkzQUCySYZxc270G-70WqWSYt9yJLOCyL1PO1YeAapI/edit?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon daily-6"><i class="fas fa-temperature-high"></i></div>
+                    <div class="report-title">Suhu Equipment</div>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/1udiF0v37ee5Q64wkuOvCyQnT-dbhia74bxgxWjisYhs/edit?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon daily-7"><i class="fas fa-temperature-half"></i></div>
+                    <div class="report-title">Suhu Product</div>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/1-7RwM1lj6FkB7F5dq_yTm70eTDcPeq9VqlgIJX5gKbk/edit?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon daily-8"><i class="fas fa-shopping-basket"></i></div>
+                    <div class="report-title">Input LPB Mnyak Harian</div>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/1z3inDI37EvqbARr3WM6lCEmJBxiR4guITvo4N02blPE/edit?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon daily-9"><i class="fas fa-shopping-basket"></i></div>
+                    <div class="report-title">Input LPB Frozen</div>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/1FOvYasOaoG7Qff9-po-WBpa2UBS62KoFypQ3RQ0_fGY/edit?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon daily-10"><i class="fas fa-shopping-basket"></i></div>
+                    <div class="report-title">Input LPB DRY</div>
+                </a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdtY5_YVmr1Tcf_cDKXwikAEHjTaQb6V1YYYRJhjiiKVg26kw/viewform" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon daily-11"><i class="fas fa-bookmark"></i></div>
+                    <div class="report-title">Form I-Quest Online</div>
+                </a>
+                <a href="https://online.hokben.net/lms/login/index.php" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon daily-12"><i class="fas fa-ticket"></i></div>
+                    <div class="report-title">Learning Management System (LMS )</div>
+                </a>
+                
+            </div>
+        </div>
+         <!-- Store Report -->
+        <div id="store" class="tab-content">
+            <div class="dashboard-grid">
+                <a href="https://docs.google.com/spreadsheets/d/121r2VIN5rtMHaAAGam2xE85z6tj6qHB4/edit?usp=sharing&ouid=104956695162123697923&rtpof=true&sd=true" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon weekly-9"><i class="fas fa-file"></i></div>
+                    <div class="report-title">Monitoring Keterlambatan 2026</div>
+                </a> 
+                <a href="https://docs.google.com/spreadsheets/d/1oCD9ylsBt0tGUewiTIlsL164qQbCQ8C6/edit?usp=sharing&ouid=104956695162123697923&rtpof=true&sd=true" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon store-1"><i class="fas fa-credit-card"></i></div>
+                    <div class="report-title">Jadwal Cuti Karywan</div>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/1-kJI-3Cp1IWiQHA3QNd945M09UKs8EI6/edit?usp=drive_link&ouid=104956695162123697923&rtpof=true&sd=true" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon store-2"><i class="fas fa-water"></i></div>
+                    <div class="report-title">Laporan Pembelian Air Minum Karyawan</div>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/1-TZUJ1a15rwoK7aiSUbQQT0cbVc4100p/edit?usp=sharing&ouid=104956695162123697923&rtpof=true&sd=true" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon store-3"><i class="fas fa-window-restore"></i></div>
+                    <div class="report-title">Laporan Kas Karyawan</div>
+                </a>
+            
+        </div>
+          </div>
+        <!-- SPV Report -->
+        <div id="supervisor" class="tab-content">
+            <div class="dashboard-grid">
+                <a href="commingsoon.html"  class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon daily-1"><i class="fas fa-users"></i></div>
+                    <div class="report-title">SDM</div>
+                </a> 
+                <a href="https://docs.google.com/spreadsheets/d/1nJ7SzPtf0x1FWO-rObVZSjOAZE0kwFj8ixCP1eJHR-Q/edit?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon daily-3"><i class="fas fa-swatchbook"></i></div>
+                    <div class="report-title">Monitoring Inventory </div>
+                </a> 
+                <a href="month_promo_2026.html" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon daily-4"><i class="fas fa-wallet"></i></div>
+                    <div class="report-title">Monitoring Tactical Promo 2026</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1GviQPmEN3j2T-1_JUyWbNHwgrBhXd6k4?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon weekly-4"><i class="fas fa-snowflake"></i></div>
+                    <div class="report-title">New Bincard</div>
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/14gGsfUqykPU6cv2C3opuc2Q3WAB1YHWGYhlsWKSzj6E/edit?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon weekly-11"><i class="fas fa-bookmark"></i></div>
+                    <div class="report-title">REPORT I-Quest Online</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1yJDioZjxptdAUGx6A_PexyDWf8rduj_t?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon weekly-12"><i class="fas fa-paperclip"></i></div>
+                    <div class="report-title">Improvment store</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1aFcuER2fIR962WbhvvQL7k0UB0Wh8smJ?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon monthly-10"><i class="fas fa-id-card"></i></div>
+                    <div class="report-title">Report Shift Management</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/12UQw8FYl-8H4okuCgzGpqnOVwvLdxkXf?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon monthly-9"><i class="fas fa-bar-chart"></i></div>
+                    <div class="report-title">Buku Kinerja Karyawan TMBS -CL</div>
+                </a>
+        </div>
+          </div>
+        
+        <!-- Monthly Report -->
+        <div id="monthly" class="tab-content">
+            <div class="dashboard-grid">
+                <a href="https://drive.google.com/drive/folders/1k4cZYSZ34Rsdar5l8_jDy4ufNGg-C3yo?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon monthly-1"><i class="fas fa-plug"></i></div>
+                    <div class="report-title">BREAKDOWN & TARGET SALES 2026 </div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1IvprItJOuCTS_zjJhdHZosh5yzQmmh5R?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon monthly-2"><i class="fas fa-desktop"></i></div>
+                    <div class="report-title">Bisnis Plan</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1o0tZgs9RJsB1zORfjLjG-mylkc12r48B?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon monthly-3"><i class="fas fa-database"></i></div>
+                    <div class="report-title">PNL</div>
+                </a>       
+                 <a href="https://drive.google.com/drive/folders/1oOBer8qZNr-HIKbWCCzwKpfMcv8aLQ_y?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon monthly-4"><i class="fas fa-podcast"></i></div>
+                    <div class="report-title">IPP KARYAWAN</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1pT1t4qpN8IeH8lHaWMuFd2fzEvs96zk-?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon monthly-5"><i class="fas fa-newspaper"></i></div>
+                    <div class="report-title">PEER TO PEER REVIEW</div>
+                </a>
+                
+                <a href="https://drive.google.com/drive/folders/1y00z58pGyKFTUDuAIt_N0Z_SiGjK2bYG?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon stk-2"><i class="fas fa-wheat-awn"></i></div>
+                    <div class="report-title">Disposal</div>
+                </a>
+                               
+                <a href="https://drive.google.com/drive/folders/1AhQ8AvJw2laRNGyCwy7pKs1Ht3JAF6Sy?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon monthly-6"><i class="fas fa-right-to-bracket"></i></div>
+                    <div class="report-title">Assesment 2025</div>
+                </a> 
+                <a href="https://drive.google.com/drive/folders/1kNCortT36l6hk9sfSBgEsifIeIirfnz4?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon monthly-7"><i class="fas fa-clipboard"></i></div>
+                    <div class="report-title">MPR</div>
+                </a>
+            </div>
+        </div>
+       
+        <!-- Project Report-->
+        <div id="project" class="tab-content">
+            <div class="dashboard-grid">
+                 <a href="https://drive.google.com/drive/folders/1z7P8aoA9IahFanJQbaA5rc7wdyfsN8p1?usp=sharing" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon weekly-13"><i class="fas fa-columns"></i></div>
+                    <div class="report-title">Dept Task Training</div>
+                </a>
+                <a href="commingsoon.html" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon store-1"><i class="fas fa-shield"></i></div>
+                    <div class="report-title">STRUKTUR ORGANISASI 5R</div>
+                </a>
+                <a href="commingsoon.html" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon store-2"><i class="fas fa-podcast"></i></div>
+                    <div class="report-title">JADWAL PREVENTIF 2026</div>
+                </a>
+                <a href="commingsoon.html" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon store-3"><i class="fas fa-plug"></i></div>
+                    <div class="report-title">PIC EQUIPMENT</div>
+                </a>
+                <a href="commingsoon.html" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon store-4"><i class="fas fa-desktop"></i></div>
+                    <div class="report-title">PIC ADMINTRASI FORM STORE</div>
+                </a>
+                <a href="commingsoon.html" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon store-5"><i class="fas fa-desktop"></i></div>
+                    <div class="report-title">MOM & ABSENSI TRAINING</div>
+                </a>
+                <a href="commingsoon.html" class="report-card" target="_blank" rel="nofollow">
+                    <div class="report-icon store-6"><i class="fas fa-bug"></i></div>
+                    <div class="report-title">Pest Control Management</div>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons and content
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked buutton
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Modal TMS 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            padding: 20px;
+        }
+        
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .dashboard-header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .dashboard-header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .months-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .month-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+        
+        .month-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .month-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .month-card:hover .month-icon {
+            transform: scale(1.1);
+        }
+        
+        .month-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        /* Warna berbeda untuk setiap bulan */
+        .januari .month-icon { color: #e74c3c; }
+        .februari .month-icon { color: #9b59b6; }
+        .maret .month-icon { color: #3498db; }
+        .april .month-icon { color: #1abc9c; }
+        .mei .month-icon { color: #f1c40f; }
+        .juni .month-icon { color: #e67e22; }
+        .juli .month-icon { color: #e74c3c; }
+        .agustus .month-icon { color: #2ecc71; }
+        .september .month-icon { color: #9b59b6; }
+        .oktober .month-icon { color: #34495e; }
+        .november .month-icon { color: #f39c12; }
+        .desember .month-icon { color: #16a085; }
+        
+        /* Latar belakang hover sesuai warna bulan */
+        .month-card.januari:hover { background-color: rgba(231, 76, 60, 0.1); }
+        .month-card.februari:hover { background-color: rgba(155, 89, 182, 0.1); }
+        .month-card.maret:hover { background-color: rgba(52, 152, 219, 0.1); }
+        .month-card.april:hover { background-color: rgba(26, 188, 156, 0.1); }
+        .month-card.mei:hover { background-color: rgba(241, 196, 15, 0.1); }
+        .month-card.juni:hover { background-color: rgba(230, 126, 34, 0.1); }
+        .month-card.juli:hover { background-color: rgba(231, 76, 60, 0.1); }
+        .month-card.agustus:hover { background-color: rgba(46, 204, 113, 0.1); }
+        .month-card.september:hover { background-color: rgba(155, 89, 182, 0.1); }
+        .month-card.oktober:hover { background-color: rgba(52, 73, 94, 0.1); }
+        .month-card.november:hover { background-color: rgba(243, 156, 18, 0.1); }
+        .month-card.desember:hover { background-color: rgba(22, 160, 133, 0.1); }
+    </style>
+</head>
+<body>
+    <div class="dashboard-header">
+        <h1>Dashboard Modal Store 2025</h1>
+        <p>Pilih bulan untuk melihat detail</p>
+    </div>
+    
+    <div class="months-container">
+        <!-- Januari -->
+        <a href="januari.html" class="month-card januari">
+            <div class="month-icon">
+                <i class="fas fa-snowflake"></i>
+            </div>
+            <div class="month-name">Januari</div>
+        </a>
+        
+        <!-- Februari -->
+        <a href="februari.html" class="month-card februari">
+            <div class="month-icon">
+                <i class="fas fa-heart"></i>
+            </div>
+            <div class="month-name">Februari</div>
+        </a>
+        
+        <!-- Maret -->
+        <a href="maret.html" class="month-card maret">
+            <div class="month-icon">
+                <i class="fas fa-wind"></i>
+            </div>
+            <div class="month-name">Maret</div>
+        </a>
+        
+        <!-- April -->
+        <a href="april.html" class="month-card april">
+            <div class="month-icon">
+                <i class="fas fa-umbrella"></i>
+            </div>
+            <div class="month-name">April</div>
+        </a>
+        
+        <!-- Mei -->
+        <a href="" class="month-card mei">
+            <div class="month-icon">
+                <i class="fas fa-seedling"></i>
+            </div>
+            <div class="month-name">Mei</div>
+        </a>
+        
+        <!-- Juni -->
+        <a href="" class="month-card juni">
+            <div class="month-icon">
+                <i class="fas fa-sun"></i>
+            </div>
+            <div class="month-name">Juni</div>
+        </a>
+        
+        <!-- Juli -->
+        <a href="modal-month.html" class="month-card juli">
+            <div class="month-icon">
+                <i class="fas fa-swimming-pool"></i>
+            </div>
+            <div class="month-name">Juli</div>
+        </a>
+        
+        <!-- Agustus -->
+        <a href="modal_agustus.html" class="month-card agustus">
+            <div class="month-icon">
+                <i class="fas fa-campground"></i>
+            </div>
+            <div class="month-name">Agustus</div>
+        </a>
+        
+        <!-- September -->
+        <a href="september.html" class="month-card september">
+            <div class="month-icon">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <div class="month-name">September</div>
+        </a>
+        
+        <!-- Oktober -->
+        <a href="oktober.html" class="month-card oktober">
+            <div class="month-icon">
+                <i class="fas fa-cloud-rain"></i>
+            </div>
+            <div class="month-name">Oktober</div>
+        </a>
+        
+        <!-- November -->
+        <a href="november.html" class="month-card november">
+            <div class="month-icon">
+                <i class="fas fa-tree"></i>
+            </div>
+            <div class="month-name">November</div>
+        </a>
+        
+        <!-- Desember -->
+        <a href="desember.html" class="month-card desember">
+            <div class="month-icon">
+                <i class="fas fa-gift"></i>
+            </div>
+            <div class="month-name">Desember</div>
+        </a>
+    </div>
+</body>
+</html>
